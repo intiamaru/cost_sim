@@ -25,12 +25,13 @@ num_qrys=0
 num_opciones=0
 fin2=0
 
+filename = 'input_888B.sql'
 
 
 ###########################################################################
 #Tomar el archivo y transformarlo en cadena
 
-REPORT=open('archivo_prueba.sql','r')
+REPORT=open(filename,'r')
 REPORT_STRING=REPORT.read()
 REPORT_STRING=REPORT_STRING+'\n'
 arch_report=open('reporte.txt','w')
@@ -118,7 +119,7 @@ y = input("Enter a valid number: ")
 ###############################################################################
 #Cadena de conexion
 
-conexion = pymssql.connect( "192.168.1.198", "consulta", "sociedad", "oficont")
+conexion = pymssql.connect( "192.168.1.198", "consulta", "sociedad", "ofilogi")
 
 
 ###############################################################################
