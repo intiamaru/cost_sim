@@ -1,0 +1,138 @@
+===================================
+R. Resultados (2013-1024): 
+Vent Total: 67681.5388
+Costo Venta Total: 56865.4432292
+Utilidad: 10816.0955708
+Porcentaje Utilidad: 15.9808653329
+===================================
+R. Resultados (2013-1025): 
+Vent Total: 6892.908
+Costo Venta Total: 7447.98296618
+Utilidad: -555.074966175
+Porcentaje Utilidad: -8.0528416479
+===================================
+R. Resultados (2013-1026): 
+Vent Total: 46081.1708
+Costo Venta Total: 8170.11755272
+Utilidad: 37911.0532473
+Porcentaje Utilidad: 82.2701606516
+===================================
+R. Resultados (2013-1028): 
+Vent Total: 7880.464
+Costo Venta Total: 11411.9357951
+Utilidad: -3531.47179512
+Porcentaje Utilidad: -44.8129931831
+===================================
+R. Resultados (2013-1030): 
+Vent Total: 27252.6615
+Costo Venta Total: 21540.5618926
+Utilidad: 5712.09960741
+Porcentaje Utilidad: 20.9597862851
+===================================
+R. Resultados (2013-1032): 
+Vent Total: 3723.9506
+Costo Venta Total: 2742.86542002
+Utilidad: 981.085179983
+Porcentaje Utilidad: 26.3452791233
+===================================
+R. Resultados (2013-964A): 
+Vent Total: 195056.0078
+Costo Venta Total: 10077.7218736
+Utilidad: 184978.285926
+Porcentaje Utilidad: 94.8334214428
+===================================
+R. Resultados (2013-981C): 
+Vent Total: 20284.1404
+Costo Venta Total: 19850.818124
+Utilidad: 433.322275956
+Porcentaje Utilidad: 2.13626147035
+===================================
+R. Resultados (2013-1035): 
+Vent Total: 8376.2905
+Costo Venta Total: 22420.0782575
+Utilidad: -14043.7877575
+Porcentaje Utilidad: -167.661183163
+===================================
+R. Resultados (2013-1036): 
+Vent Total: 249086.5291
+Costo Venta Total: 13450.8729836
+Utilidad: 235635.656116
+Porcentaje Utilidad: 94.5999195411
+===================================
+R. Resultados (2013-1037): 
+Vent Total: 768826.800431
+Costo Venta Total: 663.22097
+Utilidad: 768163.579461
+Porcentaje Utilidad: 99.9137359715
+===================================
+R. Resultados (2013-961A1): 
+Vent Total: 13461.5958
+Costo Venta Total: 752.687964654
+Utilidad: 12708.9078353
+Porcentaje Utilidad: 94.4086275072
+===================================
+R. Resultados (2013-1019B): 
+Vent Total: 42617.8969
+Costo Venta Total: 2398.86677632
+Utilidad: 40219.0301237
+Porcentaje Utilidad: 94.3712220667
+===================================
+R. Resultados (2013-1019C): 
+Vent Total: 100085.3015
+Costo Venta Total: 5901.20367173
+Utilidad: 94184.0978283
+Porcentaje Utilidad: 94.1038258533
+===================================
+R. Resultados (2013-990A): 
+Vent Total: 367401.9874
+Costo Venta Total: 19991.1858386
+Utilidad: 347410.801561
+Porcentaje Utilidad: 94.5587703594
+===================================
+R. Resultados (2013-1003B): 
+Vent Total: 453589.6057
+Costo Venta Total: 24129.7875231
+Utilidad: 429459.818177
+Porcentaje Utilidad: 94.6802600368
+===================================
+R. Resultados (2013-1013D): 
+Vent Total: 26351.6481
+Costo Venta Total: 30599.1331687
+Utilidad: -4247.48506869
+Porcentaje Utilidad: -16.1184797724
+===================================
+R. Resultados (2013-983A): 
+Vent Total: 2331.3528
+Costo Venta Total: 1448.85930847
+Utilidad: 882.493491529
+Porcentaje Utilidad: 37.8532795006
+===================================
+R. Resultados (2013-1020B): 
+Vent Total: 35908.5114
+Costo Venta Total: 30092.8124534
+Utilidad: 5815.69894663
+Porcentaje Utilidad: 16.1958786925
+===================================
+R. Resultados (2013-1020C): 
+Vent Total: 71239.2638
+Costo Venta Total: 80615.552845
+Utilidad: -9376.28904503
+Porcentaje Utilidad: -13.161687172
+===================================
+R. Resultados (2013-1020A): 
+Vent Total: 25532.5678
+Costo Venta Total: 18813.3582038
+Utilidad: 6719.20959624
+Porcentaje Utilidad: 26.3162312889
+===================================
+R. Resultados (2013-970A): 
+Vent Total: 22167.2326
+Costo Venta Total: 18816.7980895
+Utilidad: 3350.4345105
+Porcentaje Utilidad: 15.1143562706
+===================================
+R. Resultados (2013-970B): 
+Vent Total: 32552.0536
+Costo Venta Total: 75005.6826099
+Utilidad: -42453.6290099
+Por

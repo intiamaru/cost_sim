@@ -105,9 +105,12 @@ def is_number(s):
         return False
 
 #proceso
-def process_simulation(year):
+def process_simulation(year, batch_list=None):
     process_result = []
     expenses = []
+
+    f = open('output.txt','w')
+    sys.stdout = f
 
     #prepare data
     pa = unify(a,'batch')
@@ -116,10 +119,7 @@ def process_simulation(year):
     pd = unify(d,'batch')
 
     for batch in pa:
-        print pa[batch]
         batch_cost = pa[batch][0]['amount']
-        print '==================================='
-        print 'A. Costo de lote: ' + str(batch_cost)
 
         item_totals = []
         for item in pb[batch]:
@@ -130,31 +130,23 @@ def process_simulation(year):
         oc_cost = sum(item_totals)
 
         #obtain unit cost
-        print '==================================='
-        print 'B. Costo unitario: '
         elem_info = {}
         for item in pb[batch]:
             item['factor'] = item['units'] * item['value'] / oc_cost
             item['cost'] = batch_cost * item['factor']
             item['unit_cost'] = item['cost'] / item['units']
-            print str(item['name']) + ': ' + str(item['unit_cost'])
             elem_info[item['name']] = item
             
         #element transformations
-        print '==================================='
-        print 'C. Costo unitario transformaciones: '
         if batch in pc:
             for item in pc[batch]:
                 origin_unit_cost = elem_info[item['name_from']]['unit_cost']
                 output_cost = origin_unit_cost * item['units_from']
                 output_unit_cost = output_cost / item['units_to']
-                print str(item['name_to']) + ": " + str(output_unit_cost)
                 new_item = {'name': item['name_to'], 'cost': output_cost,
                             'unit_cost': output_unit_cost, 'units': item['units_to']}
                 elem_info[item['name_to']] = new_item
 
-        print '==================================='
-        print 'D. Calc costo de ventas: '
 
         result_elem = {}
         total_sales = []
@@ -174,8 +166,6 @@ def process_simulation(year):
                 #print 'Venta: ' + str(sales_value)
                 #print 'Costo Venta: ' + str(sales_cost)
                 #print 'Utilidad: ' + str(profit)
-        print 'Costo de Venta detallado'
-        print object_to_text_table(d)
                 
         result_elem['year'] = year
         result_elem['total_sales'] = sum(total_sales)
@@ -185,16 +175,17 @@ def process_simulation(year):
         result_elem['profit_percent'] = final_profit / sum(total_sales) * 100
 
         print '==================================='
-
-        print 'R. Resultados (' + str(year) + '): '
+        print 'R. Resultados (' + str(year) + '-' + str(batch) +'): '
         print 'Vent Total: ' + str(sum(total_sales))
         print 'Costo Venta Total: ' + str(sum(total_sales_cost))        
         print 'Utilidad: ' + str(final_profit)
         print 'Porcentaje Utilidad: ' + str( final_profit / sum(total_sales) * 100 )
         process_result.append(result_elem)
 
+    print ""
     print "Resultados del Proceso"
     print object_to_text_table(process_result)
+    f.close()
     
 var_dict = feed_variables('reporte.txt')
 a = var_dict['a']
