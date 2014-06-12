@@ -10,7 +10,6 @@ pos6=[]
 coment=[]
 qry_y_titulo=[]
 qry=[]
-campos=[]
 registros=[]
 registro_tupla=[]
 ini=0
@@ -25,7 +24,7 @@ num_qrys=0
 num_opciones=0
 fin2=0
 
-filename = 'input_888B.sql'
+filename = 'input_2013.sql'
 
 
 ###########################################################################
@@ -67,8 +66,8 @@ for n in mi_generador(0,num_lineas, 1):
 
     pos1.append(REPORT_STRING.find('>',ini))
     pos2.append(REPORT_STRING.find('\n',fin))
-    pos3.append(REPORT_STRING.find('-',ini2))
-    pos4.append(REPORT_STRING.find('-',fin2)) 
+    pos3.append(REPORT_STRING.find('--',ini2))
+    pos4.append(REPORT_STRING.find('--',fin2)) 
     coment.append(REPORT_STRING[pos1[n]:pos2[n]])
     qry_y_titulo.append(REPORT_STRING[pos3[n]:pos4[n]])
     ini = pos2[n]
@@ -129,7 +128,7 @@ conexion = pymssql.connect( "192.168.1.198", "consulta", "sociedad", "ofilogi")
 def obt_tabla(reporte):
     af=""
     afs=""
-    
+    campos=[]
     ##############################################################################    
     #Ejecutar el query
 
@@ -146,7 +145,7 @@ def obt_tabla(reporte):
             campo_tupla= cursor.description[n]
             campo_lista=list(campo_tupla)
             campos.append(campo_lista[0])
-
+        
 
     ##############################################################################        
     #llenar una lista con registros por campos
@@ -171,7 +170,7 @@ def obt_tabla(reporte):
             af= af + "|" + str(campos[n])+"\t"
     print af
     arch_report.write(af+'\n')
-
+    
 
     ##############################################################################
     #Graficar los registros de la tabla
@@ -204,6 +203,7 @@ elif ~(y== num_opciones):
 #################################################################################
 #Imprimir el reporte elegido en un txt    
 arch_report.close()    
+REPORT.close()
 #################################################################################    
 #Preguntar al usuario si desea seguir:
     

@@ -1,9 +1,10 @@
-#import decimal
 from __future__ import division
+import sys
+
 
 #VARIABLES
 '''
-a = [500,100,300,200,400]
+a = [{'batch':'888B','amount':561.73},{'batch':'999','amount':100}]
 b = [{'name':'I1','units':20,'value':20},
      {'name':'I2','units':10,'value':50}]
 c = [{'name_from':'I1','units_from':5,'name_to':'IA','units_to':30}]
@@ -25,22 +26,25 @@ def get_variables(file_name):
     for line in f.readlines():        
         if var_selecor in line:
             #variable
-            var = line.strip(var_selecor).strip('\n')
+            var = line.strip(var_selecor).strip('\n').strip()
             var_dict[var] = ''
         else:
             #text
-            var_dict[var] = var_dict[var] + line
+            if not var == '':
+                var_dict[var] = var_dict[var] + line
     return var_dict
 
 def feed_variables(file_name):
     orig_var_dict =  get_variables(file_name)
     var_dict = {}
     code = ''
-    for elem in orig_var_dict:        
+    for elem in orig_var_dict:
+        # codigo para interpretar arreglos
         if '[' in orig_var_dict[elem] and ']' in orig_var_dict[elem]:
             code = code + '\n' + elem + ' = ' +  orig_var_dict[elem].strip('\n')
             ev = eval(orig_var_dict[elem].strip('\n'))
             var_dict[elem] = ev
+        # codigo para interpretar tablas
         if orig_var_dict[elem][0] == '|':
             text = orig_var_dict[elem].strip('\n')
             var_dict[elem] = table_to_object(text)
@@ -74,6 +78,19 @@ def table_to_object(text):
         table.append(elem_dict)
     return table
 
+    
+def unify(table,key):
+    result = {}
+    #print "Unifing " + str(table)
+    for elem in table:
+        #print "Elem " + str(elem)
+        elem_key = elem[key]
+        if not elem_key in result:
+            result[elem_key] = []
+        result[elem_key].append(elem)
+    return result
+
+
 def num(s):
     try:
         return int(s)
@@ -86,78 +103,123 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
 #proceso
 def process_simulation(year):
-    batch_cost = sum(a)
-    print '==================================='
-    print 'A. Costo de lote: ' + str(batch_cost)
+    process_result = []
+    expenses = []
 
-    item_totals = []
-    for item in b:
-        try:
-            item_totals.append(item['units'] * item['value'])
-        except TypeError:
-            print "Tipos incorrectos, revise " +item['units'] +"-"+ item['value']
-    oc_cost = sum(item_totals)
+    #prepare data
+    pa = unify(a,'batch')
+    pb = unify(b,'batch')
+    pc = unify(c,'batch')
+    pd = unify(d,'batch')
 
-#obtain unit cost
-    print '==================================='
-    print 'B. Costo unitario: '
-    elem_info = {}
-    for item in b:
-        item['factor'] = item['units'] * item['value'] / oc_cost
-        item['cost'] = batch_cost * item['factor']
-        item['unit_cost'] = item['cost'] / item['units']
-        print str(item['name']) + ': ' + str(item['unit_cost'])
-        elem_info[item['name']] = item
-        
-    #element transformations
-    print '==================================='
-    print 'C. Costo unitario transformaciones: '
-    for item in c:
-        origin_unit_cost = elem_info[item['name_from']]['unit_cost']
-        output_cost = origin_unit_cost * item['units_from']
-        output_unit_cost = output_cost / item['units_to']
-        print str(item['name_to']) + ": " + str(output_unit_cost)
-        new_item = {'name': item['name_to'], 'cost': output_cost,
-                    'unit_cost': output_unit_cost, 'units': item['units_to']}
-        elem_info[item['name_to']] = new_item
+    for batch in pa:
+        print pa[batch]
+        batch_cost = pa[batch][0]['amount']
+        print '==================================='
+        print 'A. Costo de lote: ' + str(batch_cost)
 
-    print '==================================='
-    print 'D. Calc costo de ventas: '
-    
-    total_sales = []
-    total_sales_cost = []
-    for item in d:
-        if item['year'] == year :
-            unit_cost = elem_info[item['name']]['unit_cost']
-            sales_cost = item['units'] * unit_cost
-            sales_value = item['units'] * item['price']
-            profit = sales_value - sales_cost
-            item['sales_value'] = sales_value
-            item['sales_cost'] = sales_cost
-            item['profit'] = profit
-            total_sales.append(sales_value)
-            total_sales_cost.append(sales_cost)
-            #print str(item['name']) + ": "
-            #print 'Venta: ' + str(sales_value)
-            #print 'Costo Venta: ' + str(sales_cost)
-            #print 'Utilidad: ' + str(profit)
-    print 'Costo de Venta detallado'
-    print object_to_text_table(d)
+        item_totals = []
+        for item in pb[batch]:
+            try:
+                item_totals.append(item['units'] * item['value'])
+            except TypeError:
+                print "Tipos incorrectos, revise " + item['units'] +"-"+ item['value']
+        oc_cost = sum(item_totals)
+
+        #obtain unit cost
+        print '==================================='
+        print 'B. Costo unitario: '
+        elem_info = {}
+        for item in pb[batch]:
+            item['factor'] = item['units'] * item['value'] / oc_cost
+            item['cost'] = batch_cost * item['factor']
+            item['unit_cost'] = item['cost'] / item['units']
+            print str(item['name']) + ': ' + str(item['unit_cost'])
+            elem_info[item['name']] = item
             
-    print '==================================='
-    print 'R. Resultados (' + str(year) + '): '
-    print 'Vent Total: ' + str(sum(total_sales))
-    print 'Costo Venta Total: ' + str(sum(total_sales_cost))
-    final_profit = sum(total_sales) - sum(total_sales_cost)
-    print 'Utilidad: ' + str(final_profit)
-    print 'Porcentaje Utilidad: ' + str( final_profit / sum(total_sales) * 100 )
+        #element transformations
+        print '==================================='
+        print 'C. Costo unitario transformaciones: '
+        if batch in pc:
+            for item in pc[batch]:
+                origin_unit_cost = elem_info[item['name_from']]['unit_cost']
+                output_cost = origin_unit_cost * item['units_from']
+                output_unit_cost = output_cost / item['units_to']
+                print str(item['name_to']) + ": " + str(output_unit_cost)
+                new_item = {'name': item['name_to'], 'cost': output_cost,
+                            'unit_cost': output_unit_cost, 'units': item['units_to']}
+                elem_info[item['name_to']] = new_item
 
+        print '==================================='
+        print 'D. Calc costo de ventas: '
 
-var_dict = feed_variables('L888B.txt')
+        result_elem = {}
+        total_sales = []
+        total_sales_cost = []
+        for item in pd[batch]:
+            if item['year'] == year :
+                unit_cost = elem_info[item['name']]['unit_cost']
+                sales_cost = item['units'] * unit_cost
+                sales_value = item['units'] * item['price']
+                profit = sales_value - sales_cost
+                item['sales_value'] = sales_value
+                item['sales_cost'] = sales_cost
+                item['profit'] = profit
+                total_sales.append(sales_value)
+                total_sales_cost.append(sales_cost)
+                #print str(item['name']) + ": "
+                #print 'Venta: ' + str(sales_value)
+                #print 'Costo Venta: ' + str(sales_cost)
+                #print 'Utilidad: ' + str(profit)
+        print 'Costo de Venta detallado'
+        print object_to_text_table(d)
+                
+        result_elem['year'] = year
+        result_elem['total_sales'] = sum(total_sales)
+        result_elem['total_sales_cost'] = sum(total_sales_cost)
+        result_elem['final_profit'] = sum(total_sales) - sum(total_sales_cost)
+        final_profit = sum(total_sales) - sum(total_sales_cost)
+        result_elem['profit_percent'] = final_profit / sum(total_sales) * 100
+
+        print '==================================='
+
+        print 'R. Resultados (' + str(year) + '): '
+        print 'Vent Total: ' + str(sum(total_sales))
+        print 'Costo Venta Total: ' + str(sum(total_sales_cost))        
+        print 'Utilidad: ' + str(final_profit)
+        print 'Porcentaje Utilidad: ' + str( final_profit / sum(total_sales) * 100 )
+        process_result.append(result_elem)
+
+    print "Resultados del Proceso"
+    print object_to_text_table(process_result)
+    
+var_dict = feed_variables('reporte.txt')
 a = var_dict['a']
 b = var_dict['b']
 c = var_dict['c']
 d = var_dict['d']
 process_simulation(2013)
+
+#TDD TEST DRIVEN DEVELOPMENT
+def test1():
+    tsample = [{'batch':'1', 'a':'100', 'b':'1'}, {'batch':'2', 'a':'200', 'b':'2'}]
+    tresult = {'1':[{'batch':'1', 'a':'100', 'b':'1'}],'2':[{'batch':'2', 'a':'200', 'b':'2'}]}
+    unified = unify(tsample, 'batch')
+    print unified
+    assert unified == tresult
+    print "Test " + sys._getframe().f_code.co_name + " ok"
+
+def test2():
+    tsample = [{'batch':'1', 'a':'100', 'b':'1'}, {'batch':'2', 'a':'200', 'b':'2'},{'batch':'2', 'a':'300', 'b':'3'}]
+    tresult = {'1':[{'batch':'1', 'a':'100', 'b':'1'}],'2':[{'batch':'2', 'a':'200', 'b':'2'},{'batch':'2', 'a':'300', 'b':'3'}]}
+    unified = unify(tsample, 'batch')
+    print unified
+    assert unified == tresult
+    print "Test " + sys._getframe().f_code.co_name + " ok"
+
+def test_app():
+    test1()
+    test2()
